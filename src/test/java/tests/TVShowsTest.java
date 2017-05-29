@@ -79,15 +79,13 @@ public class TVShowsTest {
         String expTitle = programmes.get(index).getTitle() != null
                 ? programmes.get(index).getTitle().getValue()
                 : null;
-        String expGenre = programmes.get(index).getGenre() != null
-                ? programmes.get(index).getGenre().getValue()
-                : null;
+        int expGenre = programmes.get(index).getGenreId();
         String expProdYear = programmes.get(index).getProductionYear();
 
         LocalDateTime actStart = now.getData().get(0).getPrograms().get(0).getStart();
         LocalDateTime actStop = now.getData().get(0).getPrograms().get(0).getEnd();
         String actTitle = now.getData().get(0).getPrograms().get(0).getTitle();
-        String actGenre = now.getData().get(0).getPrograms().get(0).getGenre().getTitle();
+        int actGenre = now.getData().get(0).getPrograms().get(0).getGenre().getId();
         String actProdYear = now.getData().get(0).getPrograms().get(0).getYear();
 
         SoftAssert softAssert = new SoftAssert();
