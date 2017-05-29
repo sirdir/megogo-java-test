@@ -1,22 +1,25 @@
 package tests;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.xml.JacksonXmlModule;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
+import pojo.current.Json;
 import pojo.shedule.Programme;
 import pojo.shedule.Tv;
 
-import java.io.*;
+import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.List;
 
-import static io.restassured.RestAssured.*;
+import static io.restassured.RestAssured.get;
 
-/**
- * Created by sirdir on 29.05.17.
- */
 public class TVShowsTest {
 
     private String urlExp = "http://www.vsetv.com/export/megogo/epg/3.xml";
@@ -29,39 +32,60 @@ public class TVShowsTest {
 
 
     @Test
-    public void testRequest(){
+    public void testRequest() throws IOException {
         String xmlResponse = get(urlExp).getBody().asString();
-        String jsonResponse = get(urlAct).getBody().asString();
         JacksonXmlModule module = new JacksonXmlModule();
         module.setDefaultUseWrapper(false);
+        JavaTimeModule moduleTime1 = new JavaTimeModule();
+        LocalDateTimeDeserializer localDateTimeDeserializer =
+                new LocalDateTimeDeserializer(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+        moduleTime1.addDeserializer(LocalDateTime.class, localDateTimeDeserializer);
+        module.addDeserializer(LocalDateTime.class, localDateTimeDeserializer);
         XmlMapper xmlMapper = new XmlMapper(module);
-        Tv tv = null;
-        try {
-            tv = xmlMapper.readValue(xmlResponse, Tv.class);
-        } catch (IOException e) {
-            Assert.fail("cant parse xml to POJO", e);
-        }
+        xmlMapper.registerModule(moduleTime1);
+//        xmlMapper.disable(DeserializationFeature.READ_DATE_TIMESTAMPS_AS_NANOSECONDS);
+        Tv tv = xmlMapper.readValue(xmlResponse, Tv.class);
+
+        String jsonResponse = get(urlAct).getBody().asString();
+        JavaTimeModule moduleTime2 = new JavaTimeModule();
+        LocalDateTimeDeserializer localDateTimeDeserializer2 =
+                new LocalDateTimeDeserializer(DateTimeFormatter.ofPattern("MMM dd, yyyy h[h]:mm:ss a"));
+        moduleTime2.addDeserializer(LocalDateTime.class, localDateTimeDeserializer2);
+
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.registerModule(moduleTime2);
+
+        Json json = mapper.readValue(jsonResponse, Json.class);
+
         List<Programme> programmes = Arrays.asList(tv.getProgramme());
         int index = -1;
         for (int i = 0; i < programmes.size(); i++){
-            String str = programmes.get(i).getStart();
-            if (str != null && str.equals("2017-05-29 17:10:00")){
+            LocalDateTime str = programmes.get(i).getStart();
+            if (str != null && str.equals(json.getData().get(0).getPrograms().get(0).getStart())){
                 index = i;
                 break;
             }
         }
         Assert.assertNotEquals(index, -1, "no such node in expected xml");
-        String expStart = "May 29, 2017 6:45:00 AM";
-        String expStop = "May 29, 2017 7:00:00 AM";
-        String expTitle = "\\\"Завтрак с 1+1\\\". Информационно-развлекательная программа.";
-        String expGenre = "информация (комплексная)";
-        String expProdYear = "2012";
+
+        LocalDateTime actStart = json.getData().get(0).getPrograms().get(0).getStart();
+        LocalDateTime actStop = json.getData().get(0).getPrograms().get(0).getEnd();
+        String actTitle = json.getData().get(0).getPrograms().get(0).getTitle();
+        String actGenre = json.getData().get(0).getPrograms().get(0).getGenre().getTitle();
+        String actProdYear = json.getData().get(0).getPrograms().get(0).getYear();
+
+        LocalDateTime expStart = programmes.get(index).getStart();
+        LocalDateTime expStop = programmes.get(index).getStop();
+        String expTitle = programmes.get(index).getTitle().getValue();
+        String expGenre = programmes.get(index).getGenre().getValue();
+        String expProdYear = programmes.get(index).getProductionYear();
+
         SoftAssert softAssert = new SoftAssert();
-        softAssert.assertEquals(programmes.get(index).getTitle().getValue(), expTitle, "1");
-        softAssert.assertEquals(programmes.get(index).getStart(), expStart, "2");
-        softAssert.assertEquals(programmes.get(index).getStop(), expStop, "3");
-        softAssert.assertEquals(programmes.get(index).getGenre().getValue(), expGenre, "4");
-        softAssert.assertEquals(programmes.get(index).getProductionYear(),expProdYear, "5");
+        softAssert.assertEquals(actStart, expStart, actStart.toString());
+        softAssert.assertEquals(actStop, expStop, actStart.toString());
+        softAssert.assertEquals(actTitle, expTitle, "title mismatch for program starting at = " + actStart.toString());
+        softAssert.assertEquals(actGenre, expGenre, "genre mismatch for program starting at = " + actStart.toString());
+        softAssert.assertEquals(actProdYear, expProdYear, "prodYear mismatch for program starting at = " + actStart.toString());
         softAssert.assertAll();
     }
 }

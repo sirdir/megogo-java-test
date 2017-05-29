@@ -1,15 +1,16 @@
 package pojo.shedule;
 
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlText;
+
+import java.time.LocalDateTime;
 
 public class Programme {
 
     @JacksonXmlProperty(isAttribute = true)
-    private String start;
+    private LocalDateTime start;
 
     @JacksonXmlProperty(isAttribute = true)
-    private String stop;
+    private LocalDateTime stop;
 
     @JacksonXmlProperty(isAttribute = true)
     private int channel;
@@ -161,19 +162,19 @@ public class Programme {
         this.episodeNum = episodeNum;
     }
 
-    public String getStart() {
+    public LocalDateTime getStart() {
         return start;
     }
 
-    public void setStart(String start) {
+    public void setStart(LocalDateTime start) {
         this.start = start;
     }
 
-    public String getStop() {
+    public LocalDateTime getStop() {
         return stop;
     }
 
-    public void setStop(String stop) {
+    public void setStop(LocalDateTime stop) {
         this.stop = stop;
     }
 
