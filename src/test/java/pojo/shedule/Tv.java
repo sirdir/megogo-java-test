@@ -12,14 +12,11 @@ public class Tv {
     @JacksonXmlProperty(localName = "source-info-name")
     private String sourceInfoName;
 
-
     @JacksonXmlProperty(localName = "generator-info-url")
     private String generatorInfoUrl;
 
-    @JacksonXmlProperty(localName = "programme")
-    private Programme[] programme;
+    private Programme[] programme; //array instead of List because of FIXME https://github.com/FasterXML/jackson-dataformat-xml/issues/219
 
-    @JacksonXmlProperty(localName = "channel")
     private Channel channel;
 
     public Programme[] getProgramme() {

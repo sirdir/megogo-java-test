@@ -9,7 +9,6 @@ public class Category {
     private String lang;
 
     @JacksonXmlText
-    @JacksonXmlProperty(localName = "category")
     private String category;
 
     public String getLang() {

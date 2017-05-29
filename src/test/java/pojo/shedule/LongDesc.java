@@ -9,7 +9,6 @@ public class LongDesc {
     private String lang;
 
     @JacksonXmlText
-    @JacksonXmlProperty(localName = "longdesc")
     private String longdesc;
 
     public String getLang() {

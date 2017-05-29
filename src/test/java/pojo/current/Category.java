@@ -1,11 +1,14 @@
 package pojo.current;
 
-/**
- * Created by sirdir on 29.05.17.
- */
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class Category {
+
     private int id;
-    private int external_id;
+
+    @JsonProperty(value = "external_id")
+    private int externalId;
+
     private String title;
 
     public String getTitle() {
@@ -16,12 +19,12 @@ public class Category {
         this.title = title;
     }
 
-    public int getExternal_id() {
-        return external_id;
+    public int getExternalId() {
+        return externalId;
     }
 
-    public void setExternal_id(int external_id) {
-        this.external_id = external_id;
+    public void setExternalId(int externalId) {
+        this.externalId = externalId;
     }
 
     public int getId() {

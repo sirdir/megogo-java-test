@@ -9,7 +9,6 @@ public class Desc {
     private String lang;
 
     @JacksonXmlText
-    @JacksonXmlProperty(localName = "desc")
     private String desc;
 
     public String getLang() {

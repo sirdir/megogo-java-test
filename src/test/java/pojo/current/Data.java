@@ -1,12 +1,15 @@
 package pojo.current;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
 public class Data {
 
     private int id;
 
-    private int external_id;
+    @JsonProperty(value = "external_id")
+    private int externalId;
 
     private String title;
 
@@ -22,12 +25,12 @@ public class Data {
         this.id = id;
     }
 
-    public int getExternal_id() {
-        return external_id;
+    public int getExternalId() {
+        return externalId;
     }
 
-    public void setExternal_id(int external_id) {
-        this.external_id = external_id;
+    public void setExternalId(int externalId) {
+        this.externalId = externalId;
     }
 
     public String getTitle() {

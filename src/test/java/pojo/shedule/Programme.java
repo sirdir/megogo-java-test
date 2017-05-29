@@ -15,34 +15,27 @@ public class Programme {
     @JacksonXmlProperty(isAttribute = true)
     private int channel;
 
-    @JacksonXmlProperty(isAttribute = true)
-    private int genre_id;
+    @JacksonXmlProperty(localName = "genre_id")
+    private int genreId;
 
-    @JacksonXmlProperty(isAttribute = true)
-    private int programme_id;
+    @JacksonXmlProperty(localName = "programme_id")
+    private int programmeId;
 
-    @JacksonXmlProperty(isAttribute = true)
-    private int category_id;
+    @JacksonXmlProperty(localName = "category_id")
+    private int categoryId;
 
-    @JacksonXmlProperty(localName = "id")
     private long id;
 
-    @JacksonXmlProperty(localName = "date")
     private String date;
 
-    @JacksonXmlProperty(localName = "title")
     private Title title;
 
-    @JacksonXmlProperty(localName = "category")
     private Category category;
 
-    @JacksonXmlProperty(localName = "genre")
     private Genre genre;
 
-    @JacksonXmlProperty(localName = "desc")
     private Desc desc;
 
-    @JacksonXmlProperty(localName = "longdesc")
     private LongDesc longdesc;
 
     @JacksonXmlProperty(localName = "production_year")
@@ -187,27 +180,27 @@ public class Programme {
     }
 
     public int getGenreId() {
-        return genre_id;
+        return genreId;
     }
 
     public void setGenreId(int genre_id) {
-        this.genre_id = genre_id;
+        this.genreId = genre_id;
     }
 
     public int getProgrammeId() {
-        return programme_id;
+        return programmeId;
     }
 
     public void setProgrammeId(int programme_id) {
-        this.programme_id = programme_id;
+        this.programmeId = programme_id;
     }
 
     public int getCategoryId() {
-        return category_id;
+        return categoryId;
     }
 
     public void setCategoryId(int category_id) {
-        this.category_id = category_id;
+        this.categoryId = category_id;
     }
 
     public String getParental() {

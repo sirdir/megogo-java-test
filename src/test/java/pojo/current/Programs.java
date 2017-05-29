@@ -1,37 +1,59 @@
 package pojo.current;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.time.LocalDateTime;
 
 public class Programs {
-    private int external_id;
-    private int object_id;
+
+    @JsonProperty(value = "external_id")
+    private int externalId;
+
+    @JsonProperty(value = "object_id")
+    private int objectId;
+
     private String year;
+
     private String title;
+
     private String description;
-    private String schedule_string;
+
+    @JsonProperty(value = "schedule_string")
+    private String scheduleString;
+
     private Genre genre;
+
     private Category category;
+
     private Pictures pictures;
-    private String virtual_object_id;
+
+    @JsonProperty(value = "virtual_object_id")
+    private String virtualObjectId;
+
     private LocalDateTime start;
-    private int start_timestamp;
+
+    @JsonProperty(value = "start_timestamp")
+    private int startTimestamp;
+
     private LocalDateTime end;
-    private int end_timestamp;
 
-    public int getExternal_id() {
-        return external_id;
+    @JsonProperty(value = "end_timestamp")
+    private int endTimestamp;
+
+    public int getExternalId() {
+        return externalId;
     }
 
-    public void setExternal_id(int external_id) {
-        this.external_id = external_id;
+    public void setExternalId(int externalId) {
+        this.externalId = externalId;
     }
 
-    public int getObject_id() {
-        return object_id;
+    public int getObjectId() {
+        return objectId;
     }
 
-    public void setObject_id(int object_id) {
-        this.object_id = object_id;
+    public void setObjectId(int objectId) {
+        this.objectId = objectId;
     }
 
     public String getYear() {
@@ -58,12 +80,12 @@ public class Programs {
         this.description = description;
     }
 
-    public String getSchedule_string() {
-        return schedule_string;
+    public String getScheduleString() {
+        return scheduleString;
     }
 
-    public void setSchedule_string(String schedule_string) {
-        this.schedule_string = schedule_string;
+    public void setScheduleString(String scheduleString) {
+        this.scheduleString = scheduleString;
     }
 
     public Genre getGenre() {
@@ -90,12 +112,12 @@ public class Programs {
         this.pictures = pictures;
     }
 
-    public String getVirtual_object_id() {
-        return virtual_object_id;
+    public String getVirtualObjectId() {
+        return virtualObjectId;
     }
 
-    public void setVirtual_object_id(String virtual_object_id) {
-        this.virtual_object_id = virtual_object_id;
+    public void setVirtualObjectId(String virtualObjectId) {
+        this.virtualObjectId = virtualObjectId;
     }
 
     public LocalDateTime getStart() {
@@ -106,12 +128,12 @@ public class Programs {
         this.start = start;
     }
 
-    public int getStart_timestamp() {
-        return start_timestamp;
+    public int getStartTimestamp() {
+        return startTimestamp;
     }
 
-    public void setStart_timestamp(int start_timestamp) {
-        this.start_timestamp = start_timestamp;
+    public void setStartTimestamp(int startTimestamp) {
+        this.startTimestamp = startTimestamp;
     }
 
     public LocalDateTime getEnd() {
@@ -122,11 +144,11 @@ public class Programs {
         this.end = end;
     }
 
-    public int getEnd_timestamp() {
-        return end_timestamp;
+    public int getEndTimestamp() {
+        return endTimestamp;
     }
 
-    public void setEnd_timestamp(int end_timestamp) {
-        this.end_timestamp = end_timestamp;
+    public void setEndTimestamp(int endTimestamp) {
+        this.endTimestamp = endTimestamp;
     }
 }
