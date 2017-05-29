@@ -29,14 +29,18 @@ public class TVShowsTest {
 
 
     @Test
-    public void testRequest() throws IOException {
+    public void testRequest(){
         String xmlResponse = get(urlExp).getBody().asString();
         String jsonResponse = get(urlAct).getBody().asString();
         JacksonXmlModule module = new JacksonXmlModule();
         module.setDefaultUseWrapper(false);
         XmlMapper xmlMapper = new XmlMapper(module);
-        Tv tv = xmlMapper.readValue(xmlResponse, Tv.class);
-        SoftAssert softAssert = new SoftAssert();
+        Tv tv = null;
+        try {
+            tv = xmlMapper.readValue(xmlResponse, Tv.class);
+        } catch (IOException e) {
+            Assert.fail("cant parse xml to POJO", e);
+        }
         List<Programme> programmes = Arrays.asList(tv.getProgramme());
         int index = -1;
         for (int i = 0; i < programmes.size(); i++){
@@ -52,6 +56,7 @@ public class TVShowsTest {
         String expTitle = "\\\"Завтрак с 1+1\\\". Информационно-развлекательная программа.";
         String expGenre = "информация (комплексная)";
         String expProdYear = "2012";
+        SoftAssert softAssert = new SoftAssert();
         softAssert.assertEquals(programmes.get(index).getTitle().getValue(), expTitle, "1");
         softAssert.assertEquals(programmes.get(index).getStart(), expStart, "2");
         softAssert.assertEquals(programmes.get(index).getStop(), expStop, "3");
