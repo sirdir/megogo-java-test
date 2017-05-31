@@ -1,5 +1,8 @@
 # megogo-java-test
 
+<h3>Техзадание</h3>
+В корне проекта в файле <strong>Тестовое.docx</strong>
+
 <h3>Запуск</h3>
 <ul>
  <li>
