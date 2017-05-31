@@ -1,7 +1,10 @@
 package pojo.shedule;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class Programme {
@@ -26,7 +29,8 @@ public class Programme {
 
     private long id;
 
-    private String date;
+    @JsonDeserialize(using = LocalDateDeserializer.class)
+    private LocalDate date;
 
     private Title title;
 
@@ -67,11 +71,11 @@ public class Programme {
         this.id = id;
     }
 
-    public String getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 
